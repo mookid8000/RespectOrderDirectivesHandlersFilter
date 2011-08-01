@@ -1,0 +1,13 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F219222-A132-44ED-BD69-C1C12D3E0E4C}"
+	ProjectSection(SolutionItems) = preProject
+		..\scripts\build.proj = ..\scripts\build.proj
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
