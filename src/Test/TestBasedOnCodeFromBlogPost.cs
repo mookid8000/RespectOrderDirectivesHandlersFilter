@@ -21,7 +21,7 @@ namespace Test
             container.Kernel.AddHandlersFilter(new RespectOrderDirectivesHandlersFilter(typeof(ITask)));
 
             container.Register(AllTypes.FromThisAssembly().BasedOn<ITask>().WithService.Base(),
-                               Component.For<TaskExecutor>());
+                                Component.For<TaskExecutor>());
 
             var taskExecutor = container.Resolve<TaskExecutor>();
 

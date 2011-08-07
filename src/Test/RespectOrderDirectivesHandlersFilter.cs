@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Castle.MicroKernel;
@@ -96,7 +97,7 @@ namespace Test
 
     public class HandlerSorter
     {
-        readonly IDictionary<string, IDictionary<Type, int>> cachedOrders = new Dictionary<string, IDictionary<Type, int>>();
+        readonly ConcurrentDictionary<string, IDictionary<Type, int>> cachedOrders = new ConcurrentDictionary<string, IDictionary<Type, int>>();
 
         public IHandler[] Sort(IHandler[] handlers)
         {
@@ -113,12 +114,16 @@ namespace Test
         {
             var key = GetKey(handlers);
 
-            lock (cachedOrders)
+            IDictionary<Type, int> typeOrderDictionary;
+
+            if (!cachedOrders.TryGetValue(key, out typeOrderDictionary))
             {
-                return cachedOrders.ContainsKey(key)
-                           ? cachedOrders[key]
-                           : cachedOrders[key] = BuildTypeOrderDictionary(handlers);
+                typeOrderDictionary = BuildTypeOrderDictionary(handlers);
+
+                cachedOrders.TryAdd(key, typeOrderDictionary);
             }
+
+            return typeOrderDictionary;
         }
 
         string GetKey(IEnumerable<IHandler> nodes)
